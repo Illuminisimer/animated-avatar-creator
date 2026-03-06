@@ -1,0 +1,16 @@
+<<<<<<< HEAD
+version: "3.9"
+
+services:
+  avatar-app:
+    build: .
+    ports:
+=======
+version: "3.9"
+
+services:
+  avatar-app:
+    build: .
+    ports:
+>>>>>>> 90b76ceababfbb591b3349d2ef5dbf0d26f9bcc8
+      - "3000:3000"
