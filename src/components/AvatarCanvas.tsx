@@ -1,114 +1,24 @@
 "use client";
 
-import { useState } from "react";
-import { defaultAvatarState, AvatarState } from "../lib/avatarState";
+import React, { useEffect, useRef } from "react";
 
 export default function AvatarCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const [avatar, setAvatar] = useState<AvatarState>(defaultAvatarState);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-  return (
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-    <div>
+    ctx.fillStyle = "#4f46e5";
+    ctx.fillRect(0, 0, 512, 512);
 
-      <div
-        id="avatar-canvas"
-        style={{
-          width: 300,
-          height: 300,
-          border: "1px solid #ccc",
-          marginTop: 20,
-          background:
-            avatar.background.type === "transparent"
-              ? "transparent"
-              : avatar.background.value
-        }}
-      >
+    ctx.fillStyle = "white";
+    ctx.font = "bold 60px sans-serif";
+    ctx.fillText("Avatar", 120, 260);
+  }, []);
 
-        <svg width="300" height="300">
-
-          {/* Face */}
-          <circle
-            cx="150"
-            cy="150"
-            r="80"
-            fill={avatar.faceColor}
-          />
-
-          {/* Eyes */}
-          <circle cx="120" cy="140" r="10" fill={avatar.eyeColor} />
-          <circle cx="180" cy="140" r="10" fill={avatar.eyeColor} />
-
-          {/* Hair */}
-          <rect
-            x="70"
-            y="60"
-            width="160"
-            height="50"
-            fill={avatar.hairColor}
-          />
-
-        </svg>
-
-      </div>
-
-      <ColorControls avatar={avatar} setAvatar={setAvatar} />
-
-    </div>
-
-  );
-
-}
-
-function ColorControls({ avatar, setAvatar }: any) {
-
-  return (
-
-    <div style={{ marginTop: 20 }}>
-
-      <h3>Colors</h3>
-
-      Face:
-
-      <input
-        type="color"
-        value={avatar.faceColor}
-        onChange={(e) =>
-          setAvatar({
-            ...avatar,
-            faceColor: e.target.value
-          })
-        }
-      />
-
-      Eyes:
-
-      <input
-        type="color"
-        value={avatar.eyeColor}
-        onChange={(e) =>
-          setAvatar({
-            ...avatar,
-            eyeColor: e.target.value
-          })
-        }
-      />
-
-      Hair:
-
-      <input
-        type="color"
-        value={avatar.hairColor}
-        onChange={(e) =>
-          setAvatar({
-            ...avatar,
-            hairColor: e.target.value
-          })
-        }
-      />
-
-    </div>
-
-  );
-
+  return <canvas id="avatar-canvas" ref={canvasRef} width={512} height={512} />;
 }
